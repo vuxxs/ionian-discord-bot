@@ -1,10 +1,4 @@
-import {
-  ChannelType,
-  Client,
-  EmbedBuilder,
-  GuildMember,
-  Message,
-} from "discord.js";
+import { ChannelType, Client, EmbedBuilder, Message } from "discord.js";
 import { isDev } from "../../../tools/common";
 
 function announce(msg: Message, args: string[], extras: { client: Client }) {
@@ -22,47 +16,21 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
     }
   }
 
-  if (announcement_options.includes("plain")) {
-    msg.channel.send(announcement());
-    return;
-  } // Executing this option outside of the option loop because it overrides every other option.
-
-  const unknown_options = [];
-  for (const option of announcement_options) {
-    if (option === "test") {
-      msg.channel.send(
-        "Executing test command and doing nothing useful here.."
-      );
-    } else {
-      unknown_options.unshift(option);
-    }
-  }
-
-  if (unknown_options.length > 0) {
-    msg.channel.send(
-      `Unknown options: "${unknown_options.join(", ")}".` +
-        " " +
-        "Cancelling the announcement."
-    );
-    return; // Don't send the announcement in case of a wrong option.
-  }
-
-  // Finally create the announcement
+  // Create the announcement Embed
   const embed = new EmbedBuilder()
     .setTitle(announcement())
     .setColor("#FF69B4")
     .setAuthor({
-      name: msg.author.username,
+      name: msg.author.tag,
       iconURL: msg.author.displayAvatarURL(),
     });
-
-  // Send the announcement everywhere
 
   const guilds = extras.client.guilds.cache.map((guild) =>
     extras.client.guilds.cache.get(guild.id)
   );
 
-  for (const guild of guilds) {
+  // Send the announcement in the first available channel of each guild
+  announcements: for (const guild of guilds) {
     if (guild) {
       const channels = guild.channels.cache.map((channel) =>
         extras.client.channels.cache.get(channel.id)
@@ -75,7 +43,31 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
           guild.members.me &&
           guild.members.me.permissionsIn(channel).has("SendMessages")
         ) {
-          channel.send({ embeds: [embed] });
+          // Check and apply announcement options
+          if (announcement_options.includes("plain")) {
+            channel.send(announcement());
+          } else if (
+            announcement_options.includes("image") ||
+            announcement_options.includes("img") ||
+            announcement_options.includes("picture") ||
+            announcement_options.includes("pic")
+          ) {
+            if (
+              announcement().startsWith("http:") ||
+              announcement().startsWith("https:")
+            ) {
+              embed.setTitle(null).setImage(announcement().toString());
+              channel.send({ embeds: [embed] });
+            } else {
+              msg.channel.send("Invalid Image URL");
+              break announcements;
+            }
+          } else if (announcement_options.includes("test")) {
+            msg.channel.send({ embeds: [embed] });
+            break announcements;
+          } else {
+            channel.send({ embeds: [embed] });
+          }
           break;
         }
       }

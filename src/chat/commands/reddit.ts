@@ -36,8 +36,9 @@ async function reddit(msg: Message, sub?: string) {
     .setImage(data.url)
     .setURL(data.postLink);
   if (data.subreddit) {
-    embed.setAuthor({ name: `u/${data.author} at r/${data.subreddit}` });
-    embed.setFooter({ text: `${data.ups} upvotes.` });
+    embed
+      .setAuthor({ name: `u/${data.author} at r/${data.subreddit}` })
+      .setFooter({ text: `${data.ups} upvotes.` });
   }
   msg.channel.send({ embeds: [embed] });
 }
