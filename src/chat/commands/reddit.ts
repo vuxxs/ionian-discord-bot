@@ -1,0 +1,45 @@
+import { ChannelType, EmbedBuilder, Message } from "discord.js";
+import fetch from "node-fetch";
+
+async function fetchURL(url: string) {
+  const response: any = await fetch(url);
+  return await response.json();
+}
+
+async function reddit(msg: Message, sub?: string) {
+  if (!sub) sub = "all";
+  const url = `https://meme-api.herokuapp.com/gimme/${sub}`;
+  const embed = new EmbedBuilder();
+
+  let data = await fetchURL(url);
+  if (data.message) data.title = data.message; // Yeah this works for now
+
+  if (
+    msg.channel.type === ChannelType.GuildText &&
+    !msg.channel.nsfw &&
+    data.nsfw
+  ) {
+    [...Array(5)].every(async () => {
+      data = await fetchURL(url);
+      return data.nsfw;
+    });
+
+    if (data.nsfw) {
+      data = {};
+      data.title = "NSFW Post in NON-NSFW channel. (Impossible)";
+      data.url = "https://c.tenor.com/9PTGVf4BLwYAAAAM/crying-emoji-dies.gif";
+    }
+  }
+  embed
+    .setColor("#FF5700")
+    .setTitle(data.title)
+    .setImage(data.url)
+    .setURL(data.postLink);
+  if (data.subreddit) {
+    embed.setAuthor({ name: `u/${data.author} at r/${data.subreddit}` });
+    embed.setFooter({ text: `${data.ups} upvotes.` });
+  }
+  msg.channel.send({ embeds: [embed] });
+}
+
+export default reddit;
