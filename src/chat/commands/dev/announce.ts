@@ -69,16 +69,12 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
       );
 
       for (const channel of channels) {
-        console.log(
-          `Checking for Guild ${guild} in channel: ${channel} with channel type: ${channel?.type}`
-        );
-
         if (
           channel &&
           channel.type === ChannelType.GuildText &&
-          guild.members.me?.permissionsIn(channel).has("SendMessages")
+          guild.members.me &&
+          guild.members.me.permissionsIn(channel).has("SendMessages")
         ) {
-          console.log(`Sending in ${channel}`);
           channel.send({ embeds: [embed] });
           break;
         }
