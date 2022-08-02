@@ -2,7 +2,7 @@ import { ChannelType, Client, Message } from "discord.js";
 import reddit from "../chat/commands/reddit";
 import ping from "../chat/commands/ping";
 import theo from "../chat/triggers/theo";
-import announce from "../chat/commands/admin/announce";
+import announce from "../chat/commands/dev/announce";
 
 const prefix = ".";
 
@@ -25,7 +25,7 @@ export default (client: Client): void => {
       try {
         const args = message.content.toLowerCase().split(" ");
         const command = args.shift()?.slice(1);
-        if (command) commands[command](message, args);
+        if (command) commands[command](message, args, { client });
       } catch (error) {
         // Command doesn't exist, or failed to execute. Fail silently.
       }

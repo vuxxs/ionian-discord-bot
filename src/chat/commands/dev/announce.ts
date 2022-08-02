@@ -1,8 +1,14 @@
-import { Client, EmbedBuilder, Message } from "discord.js";
-import { isAdmin } from "../../../tools/common";
+import {
+  ChannelType,
+  Client,
+  EmbedBuilder,
+  GuildMember,
+  Message,
+} from "discord.js";
+import { isDev } from "../../../tools/common";
 
-function announce(msg: Message, args: string[], client: Client) {
-  if (!isAdmin(msg.author.id)) return;
+function announce(msg: Message, args: string[], extras: { client: Client }) {
+  if (!isDev(msg.author.id)) return;
 
   const announcement = () => args.join(" ");
   const announcement_options = [];
@@ -41,6 +47,7 @@ function announce(msg: Message, args: string[], client: Client) {
     return; // Don't send the announcement in case of a wrong option.
   }
 
+  // Finally create the announcement
   const embed = new EmbedBuilder()
     .setTitle(announcement())
     .setColor("#FF69B4")
@@ -48,8 +55,37 @@ function announce(msg: Message, args: string[], client: Client) {
       name: msg.author.username,
       iconURL: msg.author.displayAvatarURL(),
     });
-  msg.channel.send({ embeds: [embed] });
+
+  // Send the announcement everywhere
+
+  const guilds = extras.client.guilds.cache.map((guild) =>
+    extras.client.guilds.cache.get(guild.id)
+  );
+
+  for (const guild of guilds) {
+    if (guild) {
+      const channels = guild.channels.cache.map((channel) =>
+        extras.client.channels.cache.get(channel.id)
+      );
+
+      for (const channel of channels) {
+        console.log(
+          `Checking for Guild ${guild} in channel: ${channel} with channel type: ${channel?.type}`
+        );
+
+        if (
+          channel &&
+          channel.type === ChannelType.GuildText &&
+          guild.members.me?.permissionsIn(channel).has("SendMessages")
+        ) {
+          console.log(`Sending in ${channel}`);
+          channel.send({ embeds: [embed] });
+          break;
+        }
+      }
+    }
+  }
 }
 
-announce.admin = true;
+announce.dev = true;
 export default announce;

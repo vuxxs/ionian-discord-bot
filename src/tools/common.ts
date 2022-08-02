@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-export const isAdmin = (id: string) => {
-  const admins = process.env.ADMINS?.split(",");
-  return admins?.includes(id);
+export const isDev = (id: string) => {
+  const devs = process.env.DEVS?.split(",");
+  return devs?.includes(id);
 };
