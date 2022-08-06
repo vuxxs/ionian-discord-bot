@@ -1,5 +1,5 @@
-import { Client } from "discord.js";
+import CustomClient from "src/modules/customClient";
 
-export default (client: Client): void => {
+export default (client: CustomClient): void => {
   client.on("", async () => {});
 };

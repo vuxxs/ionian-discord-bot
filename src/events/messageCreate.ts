@@ -1,10 +1,9 @@
-import { ChannelType, Client, Message } from "discord.js";
+import { ChannelType, Message } from "discord.js";
 import reddit from "../chat/commands/reddit";
 import ping from "../chat/commands/ping";
 import theo from "../chat/triggers/theo";
 import announce from "../chat/commands/dev/announce";
-
-const prefix = ".";
+import CustomClient from "src/modules/customClient";
 
 const commands: { [key: string]: ((message: Message) => void) | any } = {
   ping: ping,
@@ -16,12 +15,12 @@ const triggers: { [key: string]: (message: Message) => void } = {
   theo: theo,
 };
 
-export default (client: Client): void => {
+export default (client: CustomClient): void => {
   client.on("messageCreate", async (message: Message) => {
     if (message.author.bot || message.channel.type !== ChannelType.GuildText)
       return;
 
-    if (message.content.startsWith(prefix)) {
+    if (message.content.startsWith(client.prefix)) {
       try {
         const args = message.content.toLowerCase().split(" ");
         const command = args.shift()?.slice(1);

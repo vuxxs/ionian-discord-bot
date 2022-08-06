@@ -1,12 +1,12 @@
-import { Client } from "discord.js";
 import ready from "./events/ready";
 import error from "./events/error";
 import messageCreate from "./events/messageCreate";
+import CustomClient from "./modules/customClient";
 require("dotenv").config();
 
 console.log("Bot is starting...");
 
-const client = new Client({
+const client = new CustomClient({
   intents: [
     "DirectMessageReactions",
     "DirectMessageTyping",
@@ -27,6 +27,8 @@ const client = new Client({
     "MessageContent",
   ],
 });
+
+client.prefix = ".";
 
 // Run events
 error(client);
