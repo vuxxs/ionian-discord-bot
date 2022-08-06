@@ -1,12 +1,14 @@
-import { ChannelType, EmbedBuilder, Message } from "discord.js";
+import { ChannelType, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
+import CommandParameters from "src/modules/commandParameters";
 
 async function fetchURL(url: string) {
   const response: any = await fetch(url);
   return await response.json();
 }
 
-async function reddit(msg: Message, sub?: string) {
+async function reddit({ msg, args }: CommandParameters) {
+  let sub = args[0];
   if (!sub) sub = "all";
   const url = `https://meme-api.herokuapp.com/gimme/${sub}`;
   const embed = new EmbedBuilder();

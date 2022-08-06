@@ -1,9 +1,6 @@
-import { Client, ClientOptions } from "discord.js";
+import { Client, Message } from "discord.js";
 
-export default class CustomClient extends Client {
-  prefix!: string;
-
-  constructor(options: ClientOptions) {
-    super(options);
-  }
+export default interface CustomClient extends Client {
+  prefix?: string;
+  announcements?: Message[];
 }

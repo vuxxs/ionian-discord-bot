@@ -1,8 +1,9 @@
-import { ChannelType, Client, EmbedBuilder, Message } from "discord.js";
+import { Channel, ChannelType, EmbedBuilder, Guild, Message } from "discord.js";
+import CommandParameters from "src/modules/commandParameters";
 import { isDev } from "../../../tools/common";
 
-function announce(msg: Message, args: string[], extras: { client: Client }) {
-  if (!isDev(msg.author.id)) return;
+async function announce({ msg, args, client }: CommandParameters) {
+  if (!isDev(msg.author.id) || args.length === 0) return;
 
   const announcement = () => args.join(" ");
   const announcement_options = [];
@@ -25,15 +26,15 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
       iconURL: msg.author.displayAvatarURL(),
     });
 
-  const guilds = extras.client.guilds.cache.map((guild) =>
-    extras.client.guilds.cache.get(guild.id)
+  const guilds = client.guilds.cache.map((guild: Guild) =>
+    client.guilds.cache.get(guild.id)
   );
 
   // Send the announcement in the first available channel of each guild
   announcements: for (const guild of guilds) {
     if (guild) {
-      const channels = guild.channels.cache.map((channel) =>
-        extras.client.channels.cache.get(channel.id)
+      const channels = guild.channels.cache.map((channel: Channel) =>
+        client.channels.cache.get(channel.id)
       );
 
       for (const channel of channels) {
@@ -57,7 +58,9 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
               announcement().startsWith("https:")
             ) {
               embed.setTitle(null).setImage(announcement().toString());
-              channel.send({ embeds: [embed] });
+              client.announcements?.push(
+                await channel.send({ embeds: [embed] })
+              );
             } else {
               msg.channel.send("Invalid Image URL");
               break announcements;
@@ -66,7 +69,7 @@ function announce(msg: Message, args: string[], extras: { client: Client }) {
             msg.channel.send({ embeds: [embed] });
             break announcements;
           } else {
-            channel.send({ embeds: [embed] });
+            client.announcements?.push(await channel.send({ embeds: [embed] }));
           }
           break;
         }

@@ -1,6 +1,6 @@
-import { Message } from "discord.js";
+import CommandParameters from "src/modules/commandParameters";
 
-function ping(msg: Message) {
+function ping({ msg }: CommandParameters) {
   msg.channel.send("..pong!");
 }
 
