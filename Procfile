@@ -1,1 +1,1 @@
-worker: node run start
+worker: ts-node src/bot.ts
