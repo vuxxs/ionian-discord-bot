@@ -1,6 +1,6 @@
 import CommandParameters from "src/modules/commandParameters";
-import { getReddit } from "../../../tools/everyAPI";
-import { isDev } from "../../../tools/common";
+import { getReddit } from "src/tools/everyAPI";
+import { isDev } from "src/tools/common";
 
 async function devReddit({ msg, args }: CommandParameters) {
   if (!isDev(msg.author.id)) return; // This command is too dangerous to be kept alive

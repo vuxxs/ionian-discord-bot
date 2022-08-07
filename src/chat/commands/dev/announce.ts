@@ -1,6 +1,6 @@
-import { Channel, ChannelType, EmbedBuilder, Guild, Message } from "discord.js";
+import { Channel, ChannelType, EmbedBuilder, Guild } from "discord.js";
 import CommandParameters from "src/modules/commandParameters";
-import { isDev } from "../../../tools/common";
+import { isDev } from "src/tools/common";
 
 async function announce({ msg, args, client }: CommandParameters) {
   if (!isDev(msg.author.id) || args.length === 0) return;
