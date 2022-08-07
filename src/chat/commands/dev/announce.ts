@@ -1,5 +1,5 @@
 import { Channel, ChannelType, EmbedBuilder, Guild } from "discord.js";
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 import { isDev } from "src/tools/common";
 
 async function announce({ msg, args, client }: CommandParameters) {

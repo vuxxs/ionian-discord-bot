@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 
-export default function randomYak(msg: Message) {
-  if (msg.guild?.id !== "691667415444095056") return;
+function randomYak(msg: Message) {
+  if (msg.guild!.id !== "691667415444095056") return;
 
   if (Math.floor(Math.random() * 500) === 82) {
     msg.channel.send(
@@ -9,3 +9,6 @@ export default function randomYak(msg: Message) {
     );
   }
 }
+
+randomYak.auto = true;
+export default randomYak;

@@ -1,4 +1,4 @@
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 import { isUni } from "src/tools/common";
 
 function schedule({ msg }: CommandParameters) {

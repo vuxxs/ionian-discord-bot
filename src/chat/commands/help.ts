@@ -1,4 +1,4 @@
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 
 function help({ msg }: CommandParameters) {
   msg.channel.send("Help command lmao");

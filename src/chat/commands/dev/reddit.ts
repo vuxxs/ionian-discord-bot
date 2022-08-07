@@ -1,4 +1,4 @@
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 import { getReddit } from "src/tools/everyAPI";
 import { isDev } from "src/tools/common";
 

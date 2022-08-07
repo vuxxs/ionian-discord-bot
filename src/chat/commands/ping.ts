@@ -1,4 +1,4 @@
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 
 function ping({ msg, client }: CommandParameters) {
   msg.channel.send(`..pong! (${client.ws.ping}ms)`);

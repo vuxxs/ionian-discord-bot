@@ -1,7 +1,7 @@
 import { ChannelType, Message } from "discord.js";
 
 import CustomClient from "src/modules/customClient";
-import CommandParameters from "src/modules/commandParameters";
+import { CommandParameters } from "src/modules/commands";
 
 import help from "src/chat/commands/help";
 import ping from "src/chat/commands/ping";
@@ -27,7 +27,13 @@ import theo from "src/chat/triggers/691667415444095056/theo";
 import deleteNonUp from "src/chat/triggers/282450388408336387/deleteNonUp";
 
 const commands: {
-  [key: string]: ({ msg, args, client }: CommandParameters) => void;
+  [key: string]: (({ msg, args, client }: CommandParameters) => void) & {
+    desc?: string;
+    bot?: boolean;
+    uni?: boolean;
+    admin?: boolean;
+    dev?: boolean;
+  };
 } = {
   ping: ping,
   coinflip: coinflip,
@@ -42,7 +48,7 @@ const commands: {
 };
 
 const triggers: {
-  [key: string]: (msg: Message) => void;
+  [key: string]: ((msg: Message) => void) & { auto?: boolean; bot?: boolean };
 } = {
   /* Global */
   bruh: bruh,
@@ -59,17 +65,14 @@ const triggers: {
   σπύρο: spiros,
   σπυρο: spiros,
   theo: theo,
+  randomYakuza: randomYak,
+  /* 282450388408336387 */
+  deleteNonUp: deleteNonUp,
 };
-
-const auto_triggers = [
-  /* 691667415444095056 */ randomYak,
-  /* 282450388408336387 */ deleteNonUp,
-];
 
 export default (client: CustomClient): void => {
   client.on("messageCreate", async (message: Message) => {
-    if (message.author.bot || message.channel.type !== ChannelType.GuildText)
-      return;
+    if (message.channel.type !== ChannelType.GuildText) return;
 
     // There should always be a prefix, unless you remove the value from index
     if (message.content.startsWith(client.prefix!)) {
@@ -84,11 +87,19 @@ export default (client: CustomClient): void => {
     }
 
     for (const trigger in triggers) {
-      if (message.content.toLowerCase().indexOf(trigger) !== -1) {
-        triggers[trigger](message);
+      // Check if the trigger allows bots when the author is a bot.
+      if (message.author.bot) {
+        if (!triggers[trigger].bot) continue;
+      }
+
+      if (triggers[trigger].auto) {
+        triggers[trigger](message); // Execute automatic triggers and skip other checks
+      } else {
+        // If it's not an auto trigger, try reading every other trigger.
+        if (message.content.toLowerCase().indexOf(trigger) !== -1) {
+          triggers[trigger](message);
+        }
       }
     }
-
-    for (const auto_trigger of auto_triggers) auto_trigger(message);
   });
 };
