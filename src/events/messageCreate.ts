@@ -3,7 +3,9 @@ import { ChannelType, Message } from "discord.js";
 import CustomClient from "../modules/customClient";
 import CommandParameters from "../modules/commandParameters";
 
+import help from "../chat/commands/help";
 import ping from "../chat/commands/ping";
+import coinflip from "../chat/commands/coinflip";
 import reddit from "../chat/commands/reddit";
 
 import announce from "../chat/commands/dev/announce";
@@ -28,7 +30,13 @@ const commands: {
   [key: string]: ({ msg, args, client }: CommandParameters) => void;
 } = {
   ping: ping,
+  coinflip: coinflip,
+  cf: coinflip,
+  help: help,
+  h: help,
   reddit: reddit,
+  r: reddit,
+  /* Dev */
   announce: announce,
   "de-announce": deleteClientAnnouncements,
 };
