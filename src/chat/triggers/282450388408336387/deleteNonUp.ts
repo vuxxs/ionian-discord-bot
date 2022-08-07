@@ -10,4 +10,5 @@ function deleteNonUp(msg: Message) {
 
 deleteNonUp.auto = true;
 deleteNonUp.bot = true;
+deleteNonUp.events = ["messageUpdate"];
 export default deleteNonUp;
