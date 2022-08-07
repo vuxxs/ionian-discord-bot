@@ -69,7 +69,7 @@ async function announce({ msg, args, client }: CommandParameters) {
             msg.channel.send({ embeds: [embed] });
             break announcements;
           } else {
-            client.announcements?.push(await channel.send({ embeds: [embed] }));
+            client.announcements!.push(await channel.send({ embeds: [embed] }));
           }
           break;
         }
