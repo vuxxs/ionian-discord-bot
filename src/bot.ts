@@ -1,8 +1,8 @@
-import error from "./events/error";
-import messageCreate from "./events/messageCreate";
 import { Client } from "discord.js";
-import CustomClient from "./modules/customClient";
-import ready from "./events/ready";
+import error from "src/events/error";
+import messageCreate from "src/events/messageCreate";
+import CustomClient from "src/modules/customClient";
+import ready from "src/events/ready";
 
 console.log("Bot is starting...");
 

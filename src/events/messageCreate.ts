@@ -1,30 +1,30 @@
 import { ChannelType, Message } from "discord.js";
 
-import CustomClient from "../modules/customClient";
-import CommandParameters from "../modules/commandParameters";
+import CustomClient from "src/modules/customClient";
+import CommandParameters from "src/modules/commandParameters";
 
-import help from "../chat/commands/help";
-import ping from "../chat/commands/ping";
-import coinflip from "../chat/commands/coinflip";
-import reddit from "../chat/commands/reddit";
+import help from "src/chat/commands/help";
+import ping from "src/chat/commands/ping";
+import coinflip from "src/chat/commands/coinflip";
+import reddit from "src/chat/commands/reddit";
 
-import announce from "../chat/commands/dev/announce";
-import { deleteClientAnnouncements } from "../chat/commands/dev/deleteClientMessages";
+import announce from "src/chat/commands/dev/announce";
+import { deleteClientAnnouncements } from "src/chat/commands/dev/deleteClientMessages";
 
 // Global
-import bruh from "../chat/triggers/bruh";
-import chungus from "../chat/triggers/chungus";
+import bruh from "src/chat/triggers/bruh";
+import chungus from "src/chat/triggers/chungus";
 
 // 691667415444095056
-import bete from "../chat/triggers/691667415444095056/beter";
-import george from "../chat/triggers/691667415444095056/george";
-import randomYak from "../chat/triggers/691667415444095056/randomYakuza";
-import rawr from "../chat/triggers/691667415444095056/rawr";
-import spiros from "../chat/triggers/691667415444095056/spiros";
-import theo from "../chat/triggers/691667415444095056/theo";
+import bete from "src/chat/triggers/691667415444095056/beter";
+import george from "src/chat/triggers/691667415444095056/george";
+import randomYak from "src/chat/triggers/691667415444095056/randomYakuza";
+import rawr from "src/chat/triggers/691667415444095056/rawr";
+import spiros from "src/chat/triggers/691667415444095056/spiros";
+import theo from "src/chat/triggers/691667415444095056/theo";
 
 // 282450388408336387
-import deleteNonUp from "../chat/triggers/282450388408336387/deleteNonUp";
+import deleteNonUp from "src/chat/triggers/282450388408336387/deleteNonUp";
 
 const commands: {
   [key: string]: ({ msg, args, client }: CommandParameters) => void;

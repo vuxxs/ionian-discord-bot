@@ -2,8 +2,7 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "commonjs",
-        "rootDir": "./src/",
-        "outDir": "./dist/",
+        "rootDir": ".",
         "strict": true,
         "moduleResolution": "node",
         "importHelpers": true,
@@ -27,7 +26,10 @@
         "./**/*.ts"
     ],
     "exclude": [
-        "node_modules",
-        "dist"
+        "node_modules"
     ],
+
+    "ts-node": {
+        "require": ["tsconfig-paths/register"]
+    }
 } 

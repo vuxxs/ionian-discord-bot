@@ -1,8 +1,7 @@
 import CommandParameters from "src/modules/commandParameters";
-import { isDev } from "../../tools/common";
-import { getReddit } from "../../tools/everyAPI";
+import { isDev } from "src/tools/common";
+import { getReddit } from "src/tools/everyAPI";
 import devReddit from "./dev/reddit";
-
 function reddit(parameters: CommandParameters) {
   if (isDev(parameters.msg.author.id) && parameters.args[0])
     return devReddit(parameters);
