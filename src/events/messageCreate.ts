@@ -1,15 +1,28 @@
 import { ChannelType, Message } from "discord.js";
 
+import CustomClient from "../modules/customClient";
+import CommandParameters from "../modules/commandParameters";
+
 import ping from "../chat/commands/ping";
 import reddit from "../chat/commands/reddit";
-
-import theo from "../chat/triggers/theo";
 
 import announce from "../chat/commands/dev/announce";
 import { deleteClientAnnouncements } from "../chat/commands/dev/deleteClientMessages";
 
-import CustomClient from "../modules/customClient";
-import CommandParameters from "../modules/commandParameters";
+// Global
+import bruh from "../chat/triggers/bruh";
+import chungus from "../chat/triggers/chungus";
+
+// 691667415444095056
+import bete from "../chat/triggers/691667415444095056/beter";
+import george from "../chat/triggers/691667415444095056/george";
+import randomYak from "../chat/triggers/691667415444095056/randomYakuza";
+import rawr from "../chat/triggers/691667415444095056/rawr";
+import spiros from "../chat/triggers/691667415444095056/spiros";
+import theo from "../chat/triggers/691667415444095056/theo";
+
+// 282450388408336387
+import deleteNonUp from "../chat/triggers/282450388408336387/deleteNonUp";
 
 const commands: {
   [key: string]: ({ msg, args, client }: CommandParameters) => void;
@@ -23,8 +36,27 @@ const commands: {
 const triggers: {
   [key: string]: (msg: Message) => void;
 } = {
+  /* Global */
+  bruh: bruh,
+  chungus: chungus,
+  chuggy: chungus,
+  chungy: chungus,
+  /* 691667415444095056 */
+  bete: bete,
+  pete: bete,
+  george: george,
+  rawr: rawr,
+  spyro: spiros,
+  spiro: spiros,
+  σπύρο: spiros,
+  σπυρο: spiros,
   theo: theo,
 };
+
+const auto_triggers = [
+  /* 691667415444095056 */ randomYak,
+  /* 282450388408336387 */ deleteNonUp,
+];
 
 export default (client: CustomClient): void => {
   client.on("messageCreate", async (message: Message) => {
@@ -48,5 +80,7 @@ export default (client: CustomClient): void => {
         triggers[trigger](message);
       }
     }
+
+    for (const auto_trigger of auto_triggers) auto_trigger(message);
   });
 };
