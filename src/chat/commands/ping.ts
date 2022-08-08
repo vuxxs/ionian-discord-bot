@@ -4,5 +4,5 @@ function ping({ msg, client }: CommandParameters) {
   msg.channel.send(`..pong! (${client.ws.ping}ms)`);
 }
 
-ping.desc = "Check my ping to the server.";
+ping.desc = "Check bot's ping";
 export default ping;
