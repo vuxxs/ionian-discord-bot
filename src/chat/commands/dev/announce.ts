@@ -1,25 +1,40 @@
 import { Channel, ChannelType, EmbedBuilder, Guild } from "discord.js";
 import { CommandParameters } from "src/modules/commands";
 import { isDev } from "src/tools/common";
-
 async function announce({ msg, args, client }: CommandParameters) {
   if (!isDev(msg.author.id) || args.length === 0) return;
 
   const announcement = () => args.join(" ");
-  const announcement_options = [];
+  const announcementOptions = [];
+  const embed = new EmbedBuilder();
 
   // Check for options and remove them from the final message.
   while (true) {
     if (args[args.length - 1].startsWith("--")) {
-      announcement_options.push(args.pop()?.substring(2).toLowerCase());
+      announcementOptions.push(args.pop()!.substring(2));
     } else {
       break;
     }
   }
 
+  function getArgsURL(option: string) {
+    const url = args.find((arg) => arg.startsWith("http"));
+    if (url) return args.splice(args.indexOf(option), 1).toString(); // Remove the URL from the announcement and return it
+  }
+  if (announcementOptions.includes("link")) {
+    const titleURL = getArgsURL("link");
+    if (titleURL) embed.setURL(titleURL);
+  }
+
+  if (announcementOptions.includes("image")) {
+    const imageURL = getArgsURL("image");
+    if (imageURL) embed.setImage(imageURL);
+  }
+
   // Create the announcement Embed
-  const embed = new EmbedBuilder()
-    .setTitle(announcement())
+  embed
+    .setTitle("Announcement")
+    .setDescription(announcement())
     .setColor("#FF69B4")
     .setAuthor({
       name: msg.author.tag,
@@ -45,27 +60,9 @@ async function announce({ msg, args, client }: CommandParameters) {
           guild.members.me.permissionsIn(channel).has("SendMessages")
         ) {
           // Check and apply announcement options
-          if (announcement_options.includes("plain")) {
+          if (announcementOptions.includes("plain")) {
             channel.send(announcement());
-          } else if (
-            announcement_options.includes("image") ||
-            announcement_options.includes("img") ||
-            announcement_options.includes("picture") ||
-            announcement_options.includes("pic")
-          ) {
-            if (
-              announcement().startsWith("http:") ||
-              announcement().startsWith("https:")
-            ) {
-              embed.setTitle(null).setImage(announcement().toString());
-              client.announcements?.push(
-                await channel.send({ embeds: [embed] })
-              );
-            } else {
-              msg.channel.send("Invalid Image URL");
-              break announcements;
-            }
-          } else if (announcement_options.includes("test")) {
+          } else if (announcementOptions.includes("test")) {
             msg.channel.send({ embeds: [embed] });
             break announcements;
           } else {
