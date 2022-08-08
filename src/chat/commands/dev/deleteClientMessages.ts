@@ -3,7 +3,10 @@ import { isDev } from "src/tools/common";
 
 export function deleteClientAnnouncements({ msg, client }: CommandParameters) {
   if (!isDev(msg.author.id)) return;
-  client.announcements?.forEach((announcement) => {
+  if (!client.announcements)
+    return msg.channel.send("No client announcements found");
+
+  client.announcements.forEach((announcement) => {
     announcement.delete();
   });
 }
