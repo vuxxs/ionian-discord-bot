@@ -4,6 +4,7 @@ import messageCreate from "src/events/messageCreate";
 import CustomClient from "src/modules/customClient";
 import ready from "src/events/ready";
 import messageUpdate from "./events/messageUpdate";
+require("dotenv").config();
 
 console.log("Bot is starting...");
 
