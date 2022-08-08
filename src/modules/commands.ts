@@ -100,6 +100,22 @@ export function runTriggers(msg: Message, event?: string) {
   }
 }
 
+export function getCommandDescriptions() {
+  const commandKeys = Object.keys(commands);
+
+  const completeDescriptions: string[] = [];
+  const commandDescriptions: string[] = [];
+  commandKeys.forEach((key) => {
+    const command = commands[key];
+    if (!command.desc) return; // If there's no description, it's probably a dev command so skip it
+    if (commandDescriptions.includes(command.desc)) return; // If it's a duplicate it's just another prefix for the command, skip it.
+    commandDescriptions.push(command.desc);
+    completeDescriptions.push(`${key}: ${command.desc}`);
+  });
+
+  return completeDescriptions;
+}
+
 export interface CommandParameters {
   client: CustomClient;
   msg: Message;

@@ -1,5 +1,5 @@
 import { CommandParameters } from "src/modules/commands";
-import { isDev } from "src/tools/common";
+import { isDev } from "src/modules/common";
 
 export function deleteClientAnnouncements({ msg, client }: CommandParameters) {
   if (!isDev(msg.author.id)) return;
