@@ -61,7 +61,7 @@ async function announce({ msg, args, client }: CommandParameters) {
         ) {
           // Check and apply announcement options
           if (announcementOptions.includes("plain")) {
-            channel.send(announcement());
+            client.announcements!.push(await channel.send(announcement()));
           } else if (announcementOptions.includes("test")) {
             msg.channel.send({ embeds: [embed] });
             break announcements;
