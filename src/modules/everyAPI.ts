@@ -1,4 +1,10 @@
-import { ChannelType, EmbedBuilder, Message } from "discord.js";
+import {
+  ChannelType,
+  EmbedBuilder,
+  Interaction,
+  InteractionType,
+  Message,
+} from "discord.js";
 import fetch from "node-fetch";
 
 async function fetchURL(url: string) {
@@ -6,7 +12,7 @@ async function fetchURL(url: string) {
   return await response.json();
 }
 
-export async function getReddit(sub: String, msg: Message) {
+export async function getReddit(sub: String, msg?: Message) {
   const url = `https://meme-api.herokuapp.com/gimme/${sub}`;
   const embed = new EmbedBuilder();
 
@@ -14,6 +20,8 @@ export async function getReddit(sub: String, msg: Message) {
   if (data.message) data.title = data.message; // Yeah this works for now
 
   if (
+    msg &&
+    msg.channel &&
     msg.channel.type === ChannelType.GuildText &&
     !msg.channel.nsfw &&
     data.nsfw
@@ -39,5 +47,6 @@ export async function getReddit(sub: String, msg: Message) {
       .setAuthor({ name: `u/${data.author} at r/${data.subreddit}` })
       .setFooter({ text: `${data.ups} upvotes.` });
   }
-  msg.channel.send({ embeds: [embed] });
+
+  return embed;
 }

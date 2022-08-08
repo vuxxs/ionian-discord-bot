@@ -4,6 +4,7 @@ import { isUni } from "./common";
 
 const { REST } = require("@discordjs/rest");
 import { Routes } from "discord-api-types/v10";
+import { interactions } from "./interactions";
 
 export default async function registerSlashCommands(client: Client) {
   const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
@@ -13,21 +14,21 @@ export default async function registerSlashCommands(client: Client) {
       client.guilds.cache.get(guild.id)
     );
 
-    const commandKeys = Object.keys(commands);
+    const interactionKeys = Object.keys(interactions);
 
     const slashCommands: SlashCommandBuilder[] = [];
     const slashCommandsUni: SlashCommandBuilder[] = [];
-    commandKeys.forEach(async (key) => {
-      const command = commands[key];
-      if (!command.desc) return;
+    interactionKeys.forEach(async (key) => {
+      const interaction = commands[key];
+      if (!interaction.desc) return;
       const slashCommand = new SlashCommandBuilder()
         .setName(key)
-        .setDescription(command.desc);
+        .setDescription(interaction.desc);
 
-      if (!command.uni) {
+      if (!interaction.uni) {
         let duplicate = false;
         for (const slashCommand of slashCommands) {
-          if (slashCommand.description === command.desc) {
+          if (slashCommand.description === interaction.desc) {
             duplicate = true;
             break;
           }
@@ -35,7 +36,7 @@ export default async function registerSlashCommands(client: Client) {
         if (!duplicate) slashCommands.push(slashCommand);
       }
 
-      if (command.uni) {
+      if (interaction.uni) {
         slashCommandsUni.push(slashCommand);
       }
     });
