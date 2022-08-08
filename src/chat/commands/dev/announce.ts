@@ -1,7 +1,9 @@
 import { Channel, ChannelType, EmbedBuilder, Guild } from "discord.js";
 import { CommandParameters } from "src/modules/commands";
 import { isDev } from "src/modules/common";
-async function announce({ msg, args, client }: CommandParameters) {
+async function announce({ msg, client }: CommandParameters) {
+  const args = msg.content.split(" ");
+  args.shift()?.slice(1);
   if (!isDev(msg.author.id) || args.length === 0) return;
 
   const announcement = () => args.join(" ");
@@ -63,7 +65,9 @@ async function announce({ msg, args, client }: CommandParameters) {
           if (announcementOptions.includes("plain")) {
             client.announcements!.push(await channel.send(announcement()));
           } else if (announcementOptions.includes("test")) {
-            msg.channel.send({ embeds: [embed] });
+            client.announcements!.push(
+              await msg.channel.send({ embeds: [embed] })
+            );
             break announcements;
           } else {
             client.announcements!.push(await channel.send({ embeds: [embed] }));
