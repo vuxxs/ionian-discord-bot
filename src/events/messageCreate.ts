@@ -6,6 +6,13 @@ export default (client: CustomClient): void => {
   client.on("messageCreate", async (message) => {
     if (message.channel.type !== ChannelType.GuildText) return;
 
+    if (
+      !message
+        .guild!.members.me!.permissionsIn(message.channel)
+        .has("SendMessages")
+    )
+      return;
+
     // There should always be a prefix, unless you remove the value from index
     if (message.content.startsWith(client.prefix!)) {
       try {
@@ -14,7 +21,7 @@ export default (client: CustomClient): void => {
         if (command)
           commands[command]({ msg: message, args: args, client: client });
       } catch (error) {
-        // Command doesn't exist, or failed to execute. Fail silently.
+        // Command doesn't exist. Fail silently.
       }
     }
 
