@@ -1,5 +1,5 @@
 import { ChannelType } from "discord.js";
-import { commands, runTriggers, triggers } from "src/modules/commands";
+import { commands, runTriggers } from "src/modules/commands";
 import CustomClient from "src/modules/customClient";
 
 export default (client: CustomClient): void => {
@@ -25,7 +25,7 @@ export default (client: CustomClient): void => {
       }
     }
 
-    // Run triggers from modules, easier to use in other events.
+    // Run triggers from modules, easier to use like this and drop it in other message-based events.
     runTriggers(message);
   });
 };
