@@ -6,8 +6,5 @@ export default (client: CustomClient): void => {
     console.log("=======================");
     console.log(error);
     console.log("=======================");
-    throw new Error(
-      "Causing a manual crash to restart the application, just in case.."
-    );
   });
 };
