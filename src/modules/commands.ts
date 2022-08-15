@@ -24,6 +24,7 @@ import theo from "src/chat/triggers/691667415444095056/theo";
 
 // 282450388408336387
 import deleteNonUp from "src/chat/triggers/282450388408336387/deleteNonUp";
+import cube from "src/chat/triggers/282450388408336387/cube";
 
 export const commands: {
   [key: string]: (({ msg, args, client }: CommandParameters) => void) & {
@@ -72,6 +73,7 @@ export const triggers: {
   randomYakuza: randomYak,
   /* 282450388408336387 */
   deleteNonUp: deleteNonUp,
+  cube: cube,
 };
 
 export function runTriggers(msg: Message, event?: string) {
