@@ -4,7 +4,8 @@ import { isDev } from "src/modules/common";
 
 async function devReddit({ msg, args }: CommandParameters) {
   if (!isDev(msg.author.id)) return; // This command is too dangerous to be kept alive
-  getReddit(args[0], msg);
+  const embed = await getReddit(args[0], msg);
+  msg.channel.send({ embeds: [embed] });
 }
 
 devReddit.dev = true;
