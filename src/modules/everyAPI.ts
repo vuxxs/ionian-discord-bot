@@ -6,6 +6,7 @@ import {
   Message,
 } from "discord.js";
 import fetch from "node-fetch";
+import { isDev } from "./common";
 
 async function fetchURL(url: string) {
   const response: any = await fetch(url);
