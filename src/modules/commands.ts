@@ -13,6 +13,10 @@ import { deleteClientAnnouncements } from "src/chat/commands/dev/deleteClientMes
 // Global
 import bruh from "src/chat/triggers/bruh";
 import chungus from "src/chat/triggers/chungus";
+import play from "src/chat/commands/play";
+import pause from "src/chat/commands/pause";
+import skip from "src/chat/commands/skip";
+import stop from "src/chat/commands/stop";
 
 // 691667415444095056
 import bete from "src/chat/triggers/691667415444095056/beter";
@@ -42,6 +46,13 @@ export const commands: {
   h: help,
   reddit: reddit,
   r: reddit,
+  play: play,
+  p: play,
+  pause: pause,
+  skip: skip,
+  s: skip,
+  stop: stop,
+  die: stop,
   /* Dev */
   announce: announce,
   "de-announce": deleteClientAnnouncements,
