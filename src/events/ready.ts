@@ -29,7 +29,6 @@ export default (client: CustomClient): void => {
       });
 
       client.player.on("trackAdd", (queue: any, track) => {
-        console.log(queue);
         queue.metadata.channel.send(`🎶 | Track **${track.title}** queued!`);
       });
 
