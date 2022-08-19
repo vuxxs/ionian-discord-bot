@@ -1,3 +1,4 @@
+import { channel } from "diagnostics_channel";
 import { Player, QueryType } from "discord-player";
 import { CommandParameters } from "src/modules/commands";
 import { isVerified, musicFallback } from "src/modules/common";
@@ -9,22 +10,22 @@ async function play({ msg, client, args }: CommandParameters) {
 
   if (!client.player) return;
 
-  const searchIndex = args.toString().replace(/,/g, " ");
+  const query = args.toString().replace(/,/g, " ");
 
   const searchResult = await client.player
-    .search(searchIndex, {
+    .search(query, {
       requestedBy: msg.author,
       searchEngine: QueryType.AUTO,
     })
     .catch(() => {});
 
   if (!searchResult || !searchResult.tracks.length) {
-    msg.channel.send(`No results for \`\`${searchIndex}\`\``);
+    msg.channel.send(`No results for \`\`${query}\`\``);
     return;
   }
 
-  const queue = await client.player.createQueue(msg.guild!, {
-    metadata: msg.channel,
+  const queue = client.player.createQueue(msg.guild!, {
+    metadata: { channel: msg.channel },
   });
 
   try {

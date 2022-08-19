@@ -23,27 +23,30 @@ export default (client: CustomClient): void => {
       });
 
       client.player.on("trackStart", (queue: any, track) => {
-        queue.metadata.send(
+        queue.metadata.channel.send(
           `🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`
         );
       });
 
       client.player.on("trackAdd", (queue: any, track) => {
-        queue.metadata.send(`🎶 | Track **${track.title}** queued!`);
+        console.log(queue);
+        queue.metadata.channel.send(`🎶 | Track **${track.title}** queued!`);
       });
 
       client.player.on("botDisconnect", (queue: any) => {
-        queue.metadata.send(
+        queue.metadata.channel.send(
           "❌ | I was manually disconnected from the voice channel, clearing queue!"
         );
       });
 
       client.player.on("channelEmpty", (queue: any) => {
-        queue.metadata.send("❌ | Nobody is in the voice channel, leaving...");
+        queue.metadata.channel.send(
+          "❌ | Nobody is in the voice channel, leaving..."
+        );
       });
 
       client.player.on("queueEnd", (queue: any) => {
-        queue.metadata.send("✅ | Queue finished!");
+        queue.metadata.channel.send("✅ | Queue finished!");
       });
     }
 
