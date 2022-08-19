@@ -36,7 +36,7 @@ const client: CustomClient = new Client({
 
 client.prefix = ".";
 client.announcements = [];
-client.musicCommands = true; // Disabled for good 'cause Google (understandably) gets really triggered about it.
+client.musicCommands = false; // Disabled for good 'cause Google (understandably) gets really triggered about it.
 client.player = new Player(client);
 // Run events
 error(client);
