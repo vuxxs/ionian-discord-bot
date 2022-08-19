@@ -7,6 +7,7 @@ import messageUpdate from "./events/messageUpdate";
 import interactionCreate from "./events/interactionCreate";
 import guildCreate from "./events/guildCreate";
 import guildDelete from "./events/guildDelete";
+import { Player } from "discord-player";
 require("dotenv").config();
 
 console.log("Bot is starting...");
@@ -35,7 +36,8 @@ const client: CustomClient = new Client({
 
 client.prefix = ".";
 client.announcements = [];
-
+client.musicCommands = false; // Disabled for good 'cause Google (understandably) gets really triggered about it.
+client.player = new Player(client);
 // Run events
 error(client);
 ready(client);
