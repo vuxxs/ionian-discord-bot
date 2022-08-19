@@ -4,9 +4,9 @@ import { CommandParameters } from "src/modules/commands";
 import { isVerified, musicFallback } from "src/modules/common";
 
 async function play({ msg, client, args }: CommandParameters) {
-  if (!client.musicCommands) musicFallback(msg);
+  if (!client.musicCommands) return musicFallback(msg);
 
-  if (isVerified(msg.guild!.id)) musicFallback(msg);
+  if (isVerified(msg.guild!.id)) return musicFallback(msg);
 
   if (!client.player) return;
 
