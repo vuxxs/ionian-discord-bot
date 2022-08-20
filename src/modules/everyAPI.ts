@@ -1,12 +1,15 @@
+import { QueryType } from "discord-player";
 import {
   ChannelType,
   EmbedBuilder,
-  Interaction,
-  InteractionType,
+  Guild,
+  GuildMember,
+  GuildTextBasedChannel,
   Message,
 } from "discord.js";
 import fetch from "node-fetch";
-import { isDev } from "./common";
+import { isVerified, musicFallback } from "./common";
+import CustomClient from "./customClient";
 
 async function fetchURL(url: string) {
   const response: any = await fetch(url);
@@ -50,4 +53,48 @@ export async function getReddit(sub: String, msg?: Message) {
   }
 
   return embed;
+}
+
+export async function queueTrack(
+  client: CustomClient,
+  query: string,
+  {
+    channel,
+    guild,
+    author,
+  }: { channel: GuildTextBasedChannel; guild: Guild; author: GuildMember }
+) {
+  if (!client.musicCommands) return musicFallback(channel);
+
+  if (isVerified(guild.id)) return musicFallback(channel);
+
+  if (!client.player) return;
+  const searchResult = await client.player
+    .search(query, {
+      requestedBy: author,
+      searchEngine: QueryType.AUTO,
+    })
+    .catch(() => {});
+
+  if (!searchResult || !searchResult.tracks.length) {
+    channel.send(`No results for \`\`${query}\`\``);
+    return;
+  }
+
+  const queue = client.player.createQueue(guild, {
+    metadata: { channel: channel },
+  });
+
+  try {
+    if (!queue.connection) await queue.connect(author.voice.channel!);
+  } catch {
+    void client.player.deleteQueue(guild.id);
+    channel.send("Could not join your voice channel.");
+    return;
+  }
+
+  searchResult.playlist
+    ? queue.addTracks(searchResult.tracks)
+    : queue.addTrack(searchResult.tracks[0]);
+  if (!queue.playing) await queue.play();
 }
