@@ -49,10 +49,7 @@ export default async function registerSlashCommands(client: Client) {
     guilds.forEach(async (guild) => {
       if (!guild || !client.user) return;
       if (!isUni(guild.id)) return;
-      if (
-        !guild.members.me ||
-        !guild.members.me.permissions.has("UseApplicationCommands")
-      )
+      if (!guild.members.me)
         await rest.put(
           Routes.applicationGuildCommands(client.user.id, guild.id),
           {
