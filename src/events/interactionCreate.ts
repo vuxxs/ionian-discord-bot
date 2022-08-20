@@ -17,7 +17,7 @@ export default (client: CustomClient): void => {
           .me!.permissionsIn(interaction.channel)
           .has(["SendMessages", "ViewChannel"])
       ) {
-        interactions[interaction.commandName](interaction);
+        interactions[interaction.commandName](interaction, client);
       } else {
         interaction.reply(
           "Can't reply here! I can't view or write to this channel."
