@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel } from "discord.js";
+import { EmbedBuilder, GuildTextBasedChannel, Message } from "discord.js";
 
 function isAnything(groupName: string, id: string) {
   if (!process.env[groupName]) {
@@ -21,4 +21,16 @@ export function musicFallback(channel: GuildTextBasedChannel) {
   channel.send(
     "Music commands are globally disabled, they were never meant to be a working feature cause Google is acting mad sus over using them"
   );
+}
+
+export function createLogEmbed(msg: Message, description: string) {
+  const embed = new EmbedBuilder();
+  embed.setAuthor({
+    name: msg.author.tag,
+    iconURL: msg.author.displayAvatarURL(),
+  });
+  embed.setTitle(description);
+  embed.setDescription(`${msg.content} | <#${msg.channel.id}>`);
+  embed.setColor("DarkGrey");
+  return embed;
 }

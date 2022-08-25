@@ -29,9 +29,13 @@ import theo from "src/chat/triggers/691667415444095056/theo";
 // 282450388408336387
 import deleteNonUp from "src/chat/triggers/282450388408336387/deleteNonUp";
 import cube from "src/chat/triggers/282450388408336387/cube";
+
+// 1010021933271756852
 import deleteInvites from "src/chat/triggers/1010021933271756852/deleteInvites";
 import horrors from "src/chat/triggers/1010021933271756852/horrors";
 import welcomeDaredevil from "src/chat/triggers/1010021933271756852/welcome";
+import daredevilSlursFilter from "src/chat/triggers/1010021933271756852/slursFilter";
+import daredevilMsgUpdateLog from "src/chat/triggers/1010021933271756852/logMsgUpdate";
 
 export const commands: {
   [key: string]: (({ msg, args, client }: CommandParameters) => void) & {
@@ -62,7 +66,7 @@ export const commands: {
 };
 
 export const triggers: {
-  [key: string]: ((msg: Message) => void) & {
+  [key: string]: ((msg: Message, oldMsg?: Message) => void) & {
     auto?: boolean;
     bot?: boolean;
     events?: string[];
@@ -91,10 +95,12 @@ export const triggers: {
   /* 1010021933271756852 */
   deleteInvites: deleteInvites,
   horrors: horrors,
-  welcomeDareDevil: welcomeDaredevil,
+  welcomeDaredevil: welcomeDaredevil,
+  daredevilSlursFilter: daredevilSlursFilter,
+  daredevilMsgUpdateLog: daredevilMsgUpdateLog,
 };
 
-export function runTriggers(msg: Message, event?: string) {
+export function runTriggers(msg: Message, event?: string, oldMsg?: Message) {
   for (const index in triggers) {
     const trigger = triggers[index];
 
@@ -110,11 +116,11 @@ export function runTriggers(msg: Message, event?: string) {
     }
 
     if (trigger.auto) {
-      trigger(msg); // Execute automatic triggers and skip other checks
+      trigger(msg, oldMsg); // Execute automatic triggers and skip other checks
     } else {
       // If it's not an auto trigger, try reading every other trigger.
       if (msg.content.toLowerCase().indexOf(index) !== -1) {
-        trigger(msg);
+        trigger(msg, oldMsg);
       }
     }
   }
