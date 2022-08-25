@@ -8,6 +8,8 @@ import interactionCreate from "./events/interactionCreate";
 import guildCreate from "./events/guildCreate";
 import guildDelete from "./events/guildDelete";
 import { Player } from "discord-player";
+import messageDelete from "./events/messageDelete";
+import messageBulkDelete from "./events/messageBulkDelete";
 require("dotenv").config();
 
 console.log("Bot is starting...");
@@ -46,5 +48,7 @@ messageUpdate(client);
 interactionCreate(client);
 guildCreate(client);
 guildDelete(client);
+messageDelete(client);
+messageBulkDelete(client);
 
 client.login(process.env.TOKEN);
