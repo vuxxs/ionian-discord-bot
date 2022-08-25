@@ -1,4 +1,3 @@
-import { QueryType } from "discord-player";
 import {
   ChatInputCommandInteraction,
   GuildMember,
@@ -13,6 +12,7 @@ async function play(
   interaction: ChatInputCommandInteraction,
   client: CustomClient
 ) {
+  await interaction.reply("Searching for your query..");
   const query = interaction.options.get("query", true).value as string; // To fix later couldn't be bothered with slash commands since the API is having some issues anyways
   queueTrack(client, query, {
     channel: interaction.channel as GuildTextBasedChannel,

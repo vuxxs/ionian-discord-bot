@@ -4,8 +4,7 @@ import * as data from "../commands/reddit";
 
 async function reddit(interaction: ChatInputCommandInteraction) {
   const embed = await getReddit("all");
-  interaction.reply("Sending post from r/all..");
-  interaction.channel!.send({ embeds: [embed] });
+  interaction.reply({ embeds: [embed] });
 }
 
 reddit.desc = data.default.desc;
