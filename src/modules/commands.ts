@@ -29,6 +29,9 @@ import theo from "src/chat/triggers/691667415444095056/theo";
 // 282450388408336387
 import deleteNonUp from "src/chat/triggers/282450388408336387/deleteNonUp";
 import cube from "src/chat/triggers/282450388408336387/cube";
+import deleteInvites from "src/chat/triggers/1010021933271756852/deleteInvites";
+import horrors from "src/chat/triggers/1010021933271756852/horrors";
+import welcomeDaredevil from "src/chat/triggers/1010021933271756852/welcome";
 
 export const commands: {
   [key: string]: (({ msg, args, client }: CommandParameters) => void) & {
@@ -85,6 +88,10 @@ export const triggers: {
   /* 282450388408336387 */
   deleteNonUp: deleteNonUp,
   cube: cube,
+  /* 1010021933271756852 */
+  deleteInvites: deleteInvites,
+  horrors: horrors,
+  welcomeDareDevil: welcomeDaredevil,
 };
 
 export function runTriggers(msg: Message, event?: string) {
