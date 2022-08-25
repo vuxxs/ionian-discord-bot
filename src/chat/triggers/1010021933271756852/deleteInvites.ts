@@ -1,4 +1,5 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
+import { createLogEmbed } from "src/modules/common";
 
 function deleteInvites(msg: Message) {
   if (msg.guild!.id !== "1010021933271756852") return;
@@ -19,10 +20,10 @@ function deleteInvites(msg: Message) {
     const channel = msg.guild!.channels.cache.get(
       "1012029657400492314"
     ) as GuildTextBasedChannel;
-    if (channel)
-      channel.send(
-        `Deleted invite from channel ${msg.channel} by ${msg.author}.`
-      );
+    if (channel) {
+      const embed = createLogEmbed(msg, `Sent an invite in ${msg.channel}.`);
+      channel.send({ embeds: [embed] });
+    }
   }
 }
 
