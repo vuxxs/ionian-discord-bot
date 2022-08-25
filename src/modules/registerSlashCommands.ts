@@ -1,5 +1,4 @@
 import { Client, Guild, SlashCommandBuilder } from "discord.js";
-import { commands } from "src/modules/commands";
 import { isUni } from "./common";
 
 const { REST } = require("@discordjs/rest");
@@ -19,11 +18,15 @@ export default async function registerSlashCommands(client: Client) {
     const slashCommands: SlashCommandBuilder[] = [];
     const slashCommandsUni: SlashCommandBuilder[] = [];
     interactionKeys.forEach(async (key) => {
-      const interaction = commands[key];
-      if (!interaction.desc) return;
-      const slashCommand = new SlashCommandBuilder()
-        .setName(key)
-        .setDescription(interaction.desc);
+      const interaction = interactions[key];
+      const slashCommand = new SlashCommandBuilder().setName(key);
+      if (!interaction.desc) return; // Will throw an error without a description
+      slashCommand.setDescription(interaction.desc);
+      if (interaction.ops) {
+        interaction.ops.forEach((option) => {
+          slashCommand.addStringOption(option);
+        });
+      }
 
       if (!interaction.uni) {
         let duplicate = false;
@@ -49,10 +52,7 @@ export default async function registerSlashCommands(client: Client) {
     guilds.forEach(async (guild) => {
       if (!guild || !client.user) return;
       if (!isUni(guild.id)) return;
-      if (
-        !guild.members.me ||
-        !guild.members.me.permissions.has("UseApplicationCommands")
-      )
+      if (!guild.members.me)
         await rest.put(
           Routes.applicationGuildCommands(client.user.id, guild.id),
           {
