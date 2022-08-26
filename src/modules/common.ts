@@ -1,5 +1,8 @@
 import { EmbedBuilder, GuildTextBasedChannel, Message } from "discord.js";
 
+export const getGroupFromEnv = (groupName: string) =>
+  process.env[groupName]?.split(".");
+
 function isAnything(groupName: string, id: string) {
   if (!process.env[groupName]) {
     console.log("ERROR! Can't locate groups in enviromental variables.");
@@ -7,7 +10,7 @@ function isAnything(groupName: string, id: string) {
     console.log(`at ${__filename}`);
     return;
   }
-  const group = process.env[groupName]!.split(".");
+  const group = getGroupFromEnv(groupName);
   return group?.includes(id);
 }
 
