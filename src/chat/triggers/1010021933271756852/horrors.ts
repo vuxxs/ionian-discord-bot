@@ -7,8 +7,10 @@ function horrors(msg: Message) {
 
   if (msg.type === MessageType.Reply) return;
 
-  if (msg.attachments.size === 0 && msg.embeds.length === 0)
-    msg.delete().catch(() => {});
+  setTimeout(() => {
+    if (msg.attachments.size === 0 && msg.embeds.length === 0)
+      msg.delete().catch(() => {});
+  }, 500);
 }
 
 horrors.auto = true;

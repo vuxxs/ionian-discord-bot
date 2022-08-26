@@ -1,20 +1,23 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
-import { createLogEmbed } from "src/modules/common";
+import { createLogEmbed, getGroupFromEnv } from "src/modules/common";
 
 function daredevilSlursFilter(msg: Message) {
-  if (msg.guild!.id !== "1010021933271756852") true;
+  if (msg.guild!.id !== "1010021933271756852") return;
 
-  if (msg.member!.roles.cache.get("1012093261306941545")) return;
-
-  let slur = false;
+  let isSlur = false;
   const content = msg.content.toLowerCase();
+  const slurs = getGroupFromEnv("SLURS");
 
-  if (content.includes("nigg")) slur = true;
-  if (content.includes("retard")) slur = true;
-  if (content.includes("fagg")) slur = true;
+  if (!slurs)
+    return console.log("ERROR: SLURS doesn't exist in env variables.");
 
-  if (slur) {
+  slurs.forEach((slur) => {
+    if (content.includes(slur)) isSlur = true;
+  });
+
+  if (isSlur) {
     msg.delete().catch(() => {});
+    if (msg.member!.roles.cache.get("1012093261306941545")) return;
     const channel = msg.guild!.channels.cache.get(
       "1012029657400492314"
     ) as GuildTextBasedChannel;
