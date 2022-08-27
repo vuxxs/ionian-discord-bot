@@ -35,5 +35,6 @@ export function createLogEmbed(msg: Message, description: string) {
   embed.setTitle(description);
   embed.setDescription(`${msg.content} | <#${msg.channel.id}>`);
   embed.setColor("DarkGrey");
+  if (msg.attachments.size > 0) embed.setImage(msg.attachments.first()!.url);
   return embed;
 }
