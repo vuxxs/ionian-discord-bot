@@ -22,7 +22,7 @@ function daredevilSlursFilter(msg: Message) {
       "1012029657400492314"
     ) as GuildTextBasedChannel;
     if (channel) {
-      const embed = createLogEmbed(msg, "Sent a slur.");
+      const embed = createLogEmbed(msg, "**Censored Message**");
       channel.send({ embeds: [embed] });
     }
   }

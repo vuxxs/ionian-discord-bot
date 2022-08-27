@@ -10,8 +10,11 @@ function daredevilMsgUpdateLog(msg: Message, oldMsg?: Message) {
     "1012029657400492314"
   ) as GuildTextBasedChannel;
   if (channel) {
-    const oldMessageEmbed = createLogEmbed(oldMsg, "Before");
-    const newMessageEmbed = createLogEmbed(msg, "After");
+    const oldMessageEmbed = createLogEmbed(
+      oldMsg,
+      "**Edited Message** | Before"
+    );
+    const newMessageEmbed = createLogEmbed(msg, "**Edited Message** | After");
     channel.send({
       content: "**Message Edit**",
       embeds: [oldMessageEmbed, newMessageEmbed],

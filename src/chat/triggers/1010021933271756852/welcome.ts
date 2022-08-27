@@ -7,7 +7,7 @@ function welcomeDaredevil(msg: Message) {
 
   if (msg.content.toLowerCase() === "elegant sux") {
     msg.channel.send(
-      `Alright, just kidding. You still have to wait for someone to let you in but thanks for reading the rules 👍`
+      `Alright, just kidding. You still have to wait for someone to let you in but thanks for reading the rules 👍 | <@&1012093261306941545>`
     );
   }
 }
