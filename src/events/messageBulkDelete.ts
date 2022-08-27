@@ -5,12 +5,14 @@ import CustomClient from "src/modules/customClient";
 export default (client: CustomClient): void => {
   client.on("messageDeleteBulk", async (messages) => {
     messages.forEach((message) => {
-      if (
-        message.channel.type !== ChannelType.GuildText ||
-        message.type !== MessageType.Default
-      )
-        return;
-      daredevilMsgDeleteLog(message);
+      setTimeout(() => {
+        if (
+          message.channel.type !== ChannelType.GuildText ||
+          message.type !== MessageType.Default
+        )
+          return;
+        daredevilMsgDeleteLog(message);
+      }, 500);
     });
   });
 };
