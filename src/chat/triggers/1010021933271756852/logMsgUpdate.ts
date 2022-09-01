@@ -5,6 +5,7 @@ function daredevilMsgUpdateLog(msg: Message, oldMsg?: Message) {
   if (msg.guild!.id !== "1010021933271756852" || msg.author.bot) return;
   if (!oldMsg) return;
   if (msg.member!.roles.cache.get("1012093261306941545")) return;
+  if (msg.content === oldMsg.content) return;
 
   const channel = msg.guild!.channels.cache.get(
     "1012029657400492314"
